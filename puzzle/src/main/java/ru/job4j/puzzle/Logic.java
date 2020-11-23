@@ -4,6 +4,16 @@ import ru.job4j.puzzle.firuges.Cell;
 import ru.job4j.puzzle.firuges.Figure;
 import java.util.Arrays;
 
+/*
+Класс Logic содержит методы логики игры, а также вызывает метод проверки выигрышной комбинации
+на игровом поле следующими строками:
+
+public boolean isWin() {
+    return Win.check(convert());
+}
+
+ */
+
 public class Logic {
     private final int size;
     private final Figure[] figures;

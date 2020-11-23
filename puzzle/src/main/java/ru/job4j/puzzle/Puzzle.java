@@ -20,6 +20,10 @@ import ru.job4j.puzzle.firuges.Figure;
 
 import java.util.Random;
 
+/*
+Класс Puzzle осуществляет отображение графики
+ */
+
 public class Puzzle extends Application {
     private static final String JOB4J = "Пазлы на www.job4j.ru";
     private final int size = 5;

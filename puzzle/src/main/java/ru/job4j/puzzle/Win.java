@@ -20,8 +20,13 @@ p.s. по коду теста видим, что заполненная ячей
 public class Win {
     public static boolean check(int[][] board) {
         boolean rsl = false;
-        if (checkRow(board) || checkCollumn(board)) {
-            rsl = true;
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][i] == 1) {
+                if (checkRow(board) || checkCollumn(board)) {
+                    rsl = true;
+                    break;
+                }
+            }
         }
         return rsl;
     }

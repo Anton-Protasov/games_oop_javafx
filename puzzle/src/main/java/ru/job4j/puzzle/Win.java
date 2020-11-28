@@ -22,7 +22,7 @@ public class Win {
         boolean rsl = false;
         for (int i = 0; i < board.length; i++) {
             if (board[i][i] == 1) {
-                if (checkRow(board) || checkCollumn(board)) {
+                if (checkRow(board, i) || checkCollumn(board, i)) {
                     rsl = true;
                     break;
                 }
@@ -33,35 +33,27 @@ public class Win {
 
     // Проверяем заполнена ли строка:
 
-    public static boolean checkRow(int[][] array) {
-        boolean row = true;
+    public static boolean checkRow(int[][] array, int row) {
+        boolean cr = true;
         for (int i = 0; i < array.length; i++) {
-            if (array[i][i] == 1) {
-                for (int j = 0; j < array.length; j++) {
-                    if (array[i][j] != 1) {
-                        row = false;
-                        break;
-                    }
-                }
+            if (array[row][i] != 1) {
+                cr = false;
+                break;
             }
         }
-        return row;
+        return cr;
     }
 
     // Проверяем заполненен ли столбец:
 
-    public static boolean checkCollumn(int[][] array) {
-        boolean collumn = true;
+    public static boolean checkCollumn(int[][] array, int collumn) {
+        boolean cc = true;
         for (int i = 0; i < array.length; i++) {
-            if (array[i][i] == 1) {
-                for (int j = 0; j < array.length; j++) {
-                    if (array[j][i] != 1) {
-                        collumn = false;
-                        break;
-                    }
-                }
+            if (array[i][collumn] != 1) {
+                cc = false;
+                break;
             }
         }
-        return collumn;
+        return cc;
     }
 }

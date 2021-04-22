@@ -43,8 +43,8 @@ public final class Logic {
      * Если они занимают ячейки steps, то метод должен кинуть исключение.
      */
     private boolean free(Cell[] steps) throws OccupiedCellException {
-        for (Figure fig: figures) {
-            for (Cell stepCheck: steps) {
+        for (Cell stepCheck: steps) {
+            for (Figure fig: figures) {
                 Cell figPosition = fig.position();
                 if (figPosition.equals(stepCheck)) {
                     throw new OccupiedCellException (

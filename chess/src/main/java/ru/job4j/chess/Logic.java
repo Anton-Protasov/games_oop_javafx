@@ -3,6 +3,7 @@ package ru.job4j.chess;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 import java.util.Arrays;
+import ru.job4j.chess.OccupiedCellException;
 
 public final class Logic {
     private final Figure[] figures = new Figure[32];
@@ -12,15 +13,46 @@ public final class Logic {
         figures[index++] = figure;
     }
 
-    public void move(Cell source, Cell dest)
-            throws FigureNotFoundException, ImpossibleMoveException, OccupiedCellException {
-        int index = findBy(source);
-        Cell[] steps = figures[index].way(dest);
-        free(steps);
-        figures[index] = figures[index].copy(dest);
+    /*
+     * Метод move:
+     * 1. По объекту типа Cell source в массиве figures найти объект типа Figure.
+     * Для этого используется метод findBy. Он возвращает индекс ячейки или выкидывает исключение.
+     * 2. Если объект найден, то нужно получить его ходы до клетки Cell dest.
+     * Это нужно сделать через метод way объекта Figure.
+     * 3. Дальше нужно проверить, что массив клеток от метода way не заполнен другими объектами класса Figure.
+     * Если он не заполнен, то нужно в массив figures в позицию, полученную в пункте 1, записать новый объект,
+     * полученный из метода figure.copy.
+     */
+    public void move(Cell source, Cell dest) {
+        try {
+            int index = findBy(source);
+            Cell[] steps = figures[index].way(dest);
+            free(steps);
+            figures[index] = figures[index].copy(dest);
+        } catch (ImpossibleMoveException iM) {
+            iM.printStackTrace();
+        } catch (OccupiedCellException oC) {
+            oC.printStackTrace();
+        } catch (FigureNotFoundException fNF) {
+            fNF.printStackTrace();
+        }
     }
 
+    /*
+     * Метод free должен пройтись по массиву figures и проверить, что фигуры не занимают элементы из массива steps.
+     * Если они занимают ячейки steps, то метод должен кинуть исключение.
+     */
     private boolean free(Cell[] steps) throws OccupiedCellException {
+        for (Figure fig: figures) {
+            for (Cell stepCheck: steps) {
+                Cell figPosition = fig.position();
+                if (figPosition.equals(stepCheck)) {
+                    throw new OccupiedCellException (
+                            String.format("Cell %s is occupied by %s", stepCheck, figPosition)
+                    );
+                }
+            }
+        }
         return true;
     }
 
@@ -36,6 +68,6 @@ public final class Logic {
                 return index;
             }
         }
-        throw new FigureNotFoundException();
+        throw new FigureNotFoundException("Figure not found");
     }
 }

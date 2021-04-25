@@ -40,23 +40,35 @@ public class BishopBlack implements Figure {
                     String.format("Could not move by diagonal from %s to %s", position, dest)
             );
         }
-            int size = Math.abs(position.getX() - dest.getX()) - 1;
+            int size = Math.abs(position.getX() - dest.getX());
             Cell[] steps = new Cell[size];
-            int deltaX = Math.abs(position.getX() - dest.getX());
-            int deltaY = Math.abs(position.getY() - dest.getY());
-            for (int index = 0; index < size; index++) {
-                steps[index] = Cell.findBy((deltaX - index), (deltaY - index));
+            int deltaX = 1;
+            int deltaY = 1;
+            if ((dest.getX() - position.getX()) < 0) {
+                deltaX = -1;
+            }
+            if ((dest.getY() - position.getY()) > 0) {
+                deltaY = -1;
+            }
+            for (int i = 0; i < size; i++) {
+                if (deltaX < 0) {
+                    deltaX = -1 * i - 1;
+                } else {
+                    deltaX = i + 1;
+                }
+                if (deltaY < 0) {
+                    deltaY = -1 * i - 1;
+                } else {
+                    deltaY = i + 1;
+                }
+                steps[i] = Cell.findBy((position.getX() + deltaX), (position.getY() + deltaY));
             }
             return steps;
-        }
+    }
 
-            public boolean isDiagonal(Cell source, Cell dest) {
-                boolean rsl = true;
-                if (!(Math.abs(source.getX() - dest.getX()) == Math.abs(source.getY() - dest.getY()))) {
-                    rsl = false;
-                }
-                return rsl;
-            }
+    public boolean isDiagonal(Cell source, Cell dest) {
+        return Math.abs(source.getX() - dest.getX()) == Math.abs(source.getY() - dest.getY());
+    }
 
     @Override
     public Figure copy(Cell dest) {

@@ -4,6 +4,8 @@ import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 import java.util.Arrays;
 import ru.job4j.chess.OccupiedCellException;
+import ru.job4j.chess.FigureNotFoundException;
+import ru.job4j.chess.ImpossibleMoveException;
 
 public final class Logic {
     private final Figure[] figures = new Figure[32];
@@ -23,19 +25,12 @@ public final class Logic {
      * Если он не заполнен, то нужно в массив figures в позицию, полученную в пункте 1, записать новый объект,
      * полученный из метода figure.copy.
      */
-    public void move(Cell source, Cell dest) {
-        try {
+    public void move(Cell source, Cell dest)
+            throws FigureNotFoundException,OccupiedCellException, ImpossibleMoveException {
             int index = findBy(source);
             Cell[] steps = figures[index].way(dest);
             free(steps);
             figures[index] = figures[index].copy(dest);
-        } catch (ImpossibleMoveException iM) {
-            iM.printStackTrace();
-        } catch (OccupiedCellException oC) {
-            oC.printStackTrace();
-        } catch (FigureNotFoundException fNF) {
-            fNF.printStackTrace();
-        }
     }
 
     /*
@@ -45,10 +40,9 @@ public final class Logic {
     private boolean free(Cell[] steps) throws OccupiedCellException {
         for (Cell stepCheck: steps) {
             for (Figure fig: figures) {
-                Cell figPosition = fig.position();
-                if (figPosition.equals(stepCheck)) {
+                if (fig != null && fig.position().equals(stepCheck)) {
                     throw new OccupiedCellException (
-                            String.format("Cell %s is occupied by %s", stepCheck, figPosition)
+                            String.format("Cell %s is occupied by %s", stepCheck, fig.position())
                     );
                 }
             }

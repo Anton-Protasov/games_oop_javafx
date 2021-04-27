@@ -42,7 +42,7 @@ public final class Logic {
             for (Figure fig: figures) {
                 if (fig != null && fig.position().equals(stepCheck)) {
                     throw new OccupiedCellException (
-                            String.format("Cell %s is occupied by %s", stepCheck, fig.position())
+                            String.format("Cell %s is occupied by %s", stepCheck, fig.getClass().getName())
                     );
                 }
             }

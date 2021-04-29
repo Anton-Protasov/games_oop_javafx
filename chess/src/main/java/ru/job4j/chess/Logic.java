@@ -37,7 +37,7 @@ public final class Logic {
      * Метод free должен пройтись по массиву figures и проверить, что фигуры не занимают элементы из массива steps.
      * Если они занимают ячейки steps, то метод должен кинуть исключение.
      */
-    public boolean free(Cell[] steps) throws OccupiedCellException {
+    private boolean free(Cell[] steps) throws OccupiedCellException {
         for (Cell stepCheck: steps) {
             for (Figure fig: figures) {
                 if (fig != null && fig.position().equals(stepCheck)) {
@@ -55,7 +55,7 @@ public final class Logic {
         index = 0;
     }
 
-    public int findBy(Cell cell) throws FigureNotFoundException {
+    private int findBy(Cell cell) throws FigureNotFoundException {
         for (int index = 0; index != figures.length; index++) {
             Figure figure = figures[index];
             if (figure != null && figure.position().equals(cell)) {
